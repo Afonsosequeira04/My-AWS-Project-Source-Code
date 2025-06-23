@@ -70,7 +70,7 @@ module "asg" {
   desired_capacity          = var.asg_desired_capacity
   wait_for_capacity_timeout = var.asg_wait_for_capacity_timeout
   health_check_type         = var.asg_health_check_type
-  vpc_zone_identifier       = module.vpc.private_subnets
+  vpc_zone_identifier = concat(module.vpc.public_subnets, module.vpc.private_subnets)
   user_data                 = base64encode(local.user_data)
 
   # Launch template
