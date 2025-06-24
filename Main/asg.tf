@@ -199,13 +199,6 @@ module "asg_private" {
       security_groups       = [module.asg_sg.security_group_id]
       # No public IP here, so omit associate_public_ip_address or set false
     },
-    {
-      delete_on_termination = true
-      description           = "eth1"
-      device_index          = 1
-      security_groups       = [module.asg_sg.security_group_id]
-      # No public IP here either
-    }
   ]
 
   tag_specifications = [
