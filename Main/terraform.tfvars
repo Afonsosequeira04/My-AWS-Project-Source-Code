@@ -15,9 +15,9 @@ asg_sg_name                             = "demo-asg-sg"
 asg_sg_description                      = "demo-asg-sg"
 asg_sg_tags                             = { "Name" = "demo-asg-sg", "created-by" = "terraform" }
 asg_name                                = "demo-asg"
-asg_min_size                            = 0
-asg_max_size                            = 2
-asg_desired_capacity                    = 2
+asg_min_size                            = 2
+asg_max_size                            = 4
+asg_desired_capacity                    = 4
 asg_wait_for_capacity_timeout           = 0
 asg_health_check_type                   = "EC2"
 asg_launch_template_name                = "demo-lt"
