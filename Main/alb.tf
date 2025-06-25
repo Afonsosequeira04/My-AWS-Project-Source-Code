@@ -1,7 +1,3 @@
-################################################################################
-# Supporting Resources
-################################################################################
-
 module "alb_http_sg" {
   source  = "terraform-aws-modules/security-group/aws//modules/http-80"
   version = "~> 4.0"
@@ -12,6 +8,17 @@ module "alb_http_sg" {
 
   ingress_cidr_blocks = var.alb_sg_ingress_cidr_blocks
   tags                = var.alb_sg_tags
+}
+
+# Add HTTPS ingress rule to the ALB security group
+resource "aws_security_group_rule" "alb_https_ingress" {
+  type              = "ingress"
+  from_port         = 443
+  to_port           = 443
+  protocol          = "tcp"
+  security_group_id = module.alb_http_sg.security_group_id
+  cidr_blocks       = var.alb_sg_ingress_cidr_blocks
+  description       = "Allow HTTPS inbound traffic"
 }
 
 ################################################################################
@@ -28,11 +35,20 @@ module "alb" {
 
   http_tcp_listeners = [
     {
-      port               = 80
-      protocol           = "HTTP"
-      target_group_index = 0
+      port     = 80
+      protocol = "HTTP"
+
+      default_action = {
+        type = "redirect"
+        redirect = {
+          protocol    = "HTTPS"
+          port        = "443"
+          status_code = "HTTP_301"
+        }
+      }
     }
   ]
+
 
   target_groups = [
     {
@@ -57,3 +73,7 @@ module "alb" {
 
   tags = var.alb_tags
 }
+
+
+
+
