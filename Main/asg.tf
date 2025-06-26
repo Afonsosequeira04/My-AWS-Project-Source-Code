@@ -27,6 +27,17 @@ echo '<?php phpinfo(); ?>' > /var/www/html/phpinfo.php
 cd phpMyAdmin
 mv config.sample.inc.php config.inc.php
 sed -i 's/localhost/${module.rds.db_instance_address}/g' config.inc.php
+amazon-linux-extras install java-openjdk17 -y
+
+
+    # Add Jenkins repo and install Jenkins
+    wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+    rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+    yum install jenkins -y
+
+    # Enable and start Jenkins
+    systemctl enable jenkins
+    systemctl start jenkins
   EOT
 }
 

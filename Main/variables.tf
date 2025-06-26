@@ -107,13 +107,13 @@ variable "asg_health_check_type" {
 variable "asg_launch_template_name" {
   description = "Name of the autoscaling group launch template"
   type        = string
-  default     = "demo-lt"
+  default     = "Architeture-lt"
 }
 
 variable "asg_launch_template_description" {
   description = "Description of the autoscaling group security group"
   type        = string
-  default     = "demo-lt"
+  default     = "Architeture-lt"
 }
 
 variable "asg_update_default_version" {
@@ -155,7 +155,7 @@ variable "asg_create_iam_instance_profile" {
 variable "asg_iam_role_name" {
   description = "Auto scaling group iam role name"
   type        = string
-  default     = "demo-asg-iam-role"
+  default     = "Architeture-asg-iam-role"
 }
 
 variable "asg_iam_role_path" {
@@ -167,13 +167,13 @@ variable "asg_iam_role_path" {
 variable "asg_iam_role_description" {
   description = "Auto scaling group iam role description"
   type        = string
-  default     = "demo-asg-iam-role"
+  default     = "Architeture-asg-iam-role"
 }
 
 variable "asg_iam_role_tags" {
   description = "Auto scaling group iam role tags"
   type        = map(string)
-  default     = { "Name" = "demo-asg-iam-role", "created-by" = "terraform" }
+  default     = { "Name" = "Architeture-asg-iam-role", "created-by" = "terraform" }
 }
 
 variable "asg_block_device_mappings_volume_size_0" {
@@ -191,26 +191,26 @@ variable "asg_block_device_mappings_volume_size_1" {
 variable "asg_instance_tags" {
   description = "Auto scaling group instance tags"
   type        = map(string)
-  default     = { "Name" = "demo-asg-instance", "created-by" = "terraform" }
+  default     = { "Name" = "Architeture-asg-instance", "created-by" = "terraform" }
 }
 
 variable "asg_volume_tags" {
   description = "Auto scaling group volume tags"
   type        = map(string)
-  default     = { "Name" = "demo-asg-volume", "created-by" = "terraform" }
+  default     = { "Name" = "Architeture-asg-volume", "created-by" = "terraform" }
 }
 
 variable "asg_tags" {
   description = "Auto scaling group tags"
   type        = map(string)
-  default     = { "Name" = "demo-asg", "created-by" = "terraform" }
+  default     = { "Name" = "Architeture-asg", "created-by" = "terraform" }
 }
 
 # ALB variables
 variable "alb_sg_name" {
   description = "Application load balancer security group name"
   type        = string
-  default     = "demo-alb-sg"
+  default     = "Architeture-alb-sg"
 }
 
 variable "alb_sg_ingress_cidr_blocks" {
@@ -222,25 +222,25 @@ variable "alb_sg_ingress_cidr_blocks" {
 variable "alb_sg_description" {
   description = "Application load balancer security group description"
   type        = string
-  default     = "demo-alb-sg"
+  default     = "Architeture-alb-sg"
 }
 
 variable "alb_sg_tags" {
   description = "Application load balancer security group tags"
   type        = map(string)
-  default     = { "Name" = "demo-alb-sg", "created-by" = "terraform" }
+  default     = { "Name" = "Architeture-alb-sg", "created-by" = "terraform" }
 }
 
 variable "alb_description" {
   description = "Application load balancer description"
   type        = string
-  default     = "demo-alb"
+  default     = "Architeture-alb"
 }
 
 variable "alb_name" {
   description = "Application load balancer name"
   type        = string
-  default     = "demo-alb"
+  default     = "Architeture-alb"
 }
 
 variable "alb_http_tcp_listeners_port" {
@@ -252,7 +252,7 @@ variable "alb_http_tcp_listeners_port" {
 variable "alb_target_group_name" {
   description = "Application load balancer target group name"
   type        = string
-  default     = "demo-alb-tg"
+  default     = "Architeture-alb-tg"
 }
 
 variable "alb_target_groups_backend_port" {
@@ -264,32 +264,32 @@ variable "alb_target_groups_backend_port" {
 variable "alb_tags" {
   description = "Application load balancer tags"
   type        = map(string)
-  default     = { "Name" = "demo-alb", "created-by" = "terraform" }
+  default     = { "Name" = "Architeture-alb", "created-by" = "terraform" }
 }
 
 # RDS variables
 variable "rds_sg_name" {
   description = "Relational database service security group name"
   type        = string
-  default     = "demo-rds-sg"
+  default     = "Architeture-rds-sg"
 }
 
 variable "rds_sg_description" {
   description = "Relational database service security group description"
   type        = string
-  default     = "demo-rds-sg"
+  default     = "Architeture-rds-sg"
 }
 
 variable "rds_sg_tags" {
   description = "Relational database service security group tags"
   type        = map(string)
-  default     = { "Name" = "demo-rds-sg", "created-by" = "terraform" }
+  default     = { "Name" = "Architeture-rds-sg", "created-by" = "terraform" }
 }
 
 variable "rds_identifier" {
   description = "Relational database service identifier"
   type        = string
-  default     = "demo-rds"
+  default     = "Architeture-rds"
 }
 
 variable "rds_mysql_engine" {
@@ -337,13 +337,13 @@ variable "rds_max_allocated_storage" {
 variable "rds_db_name" {
   description = "Relational database service db name"
   type        = string
-  default     = "demo_mysql"
+  default     = "Architeture_mysql"
 }
 
 variable "rds_username" {
   description = "Relational database service username"
   type        = string
-  default     = "demo_user"
+  default     = "Architeture_user"
 }
 
 variable "rds_port" {
@@ -427,29 +427,29 @@ variable "rds_monitoring_interval" {
 variable "rds_tags" {
   description = "Relational database service tags"
   type        = map(string)
-  default     = { "Name" = "demo-rds", "created-by" = "terraform" }
+  default     = { "Name" = "Architeture-rds", "created-by" = "terraform" }
 }
 
 variable "rds_db_instance_tags" {
   description = "Relational database service db instance tags"
   type        = map(string)
-  default     = { "Name" = "demo-rds", "created-by" = "terraform" }
+  default     = { "Name" = "Architeture-rds", "created-by" = "terraform" }
 }
 
 variable "rds_db_option_group_tags" {
   description = "Relational database service db option group tags"
   type        = map(string)
-  default     = { "Name" = "demo-rds", "created-by" = "terraform" }
+  default     = { "Name" = "Architeture-rds", "created-by" = "terraform" }
 }
 
 variable "rds_db_parameter_group_tags" {
   description = "Relational database service db parameter group tags"
   type        = map(string)
-  default     = { "Name" = "demo-rds", "created-by" = "terraform" }
+  default     = { "Name" = "Architeture-rds", "created-by" = "terraform" }
 }
 
 variable "rds_db_subnet_group_tags" {
   description = "Relational database service db subnet group tags"
   type        = map(string)
-  default     = { "Name" = "demo-rds", "created-by" = "terraform" }
+  default     = { "Name" = "Architeture-rds", "created-by" = "terraform" }
 }
