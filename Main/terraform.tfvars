@@ -53,7 +53,7 @@ alb_tags                       = { "Name" = "Architeture-alb", "created-by" = "t
 rds_sg_name                               = "Architeture-rds-sg"
 rds_sg_description                        = "Architeture-rds-sg"
 rds_sg_tags                               = { "Name" = "Architeture-rds-sg", "created-by" = "terraform" }
-rds_identifier                            = "Architeture-rds"
+rds_identifier                            = "architeture-rds"
 rds_mysql_engine                          = "mysql"
 rds_engine_version                        = "8.0.36"
 rds_family                                = "mysql8.0" # DB parameter group
@@ -61,8 +61,8 @@ rds_major_engine_version                  = "8.0"      # DB option group
 rds_instance_class                        = "db.t3.small"
 rds_allocated_storage                     = 20
 rds_max_allocated_storage                 = 100
-rds_db_name                               = "Architeture_mysql"
-rds_username                              = "Architeture_user"
+rds_db_name                               = "architeture-mysql"
+rds_username                              = "architeture-user"
 rds_port                                  = 3306
 rds_multi_az                              = false
 rds_maintenance_window                    = "Mon:00:00-Mon:03:00"
