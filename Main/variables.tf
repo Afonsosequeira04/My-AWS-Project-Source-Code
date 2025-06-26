@@ -9,7 +9,7 @@ variable "region" {
 variable "vpc_name" {
   description = "Name of the VPC"
   type        = string
-  default     = "demo-vpc"
+  default     = "Architeture-vpc"
 }
 
 variable "vpc_cidr" {
@@ -21,7 +21,7 @@ variable "vpc_cidr" {
 variable "vpc_azs" {
   description = "List of AZs"
   type        = list(string)
-  default     = ["us-east-1a", "us-east-1b", "us-east-1c"]
+  default     = ["us-east-1a", "us-east-1b"]
 }
 
 variable "vpc_public_subnets" {
@@ -45,7 +45,7 @@ variable "vpc_database_subnets" {
 variable "vpc_tags" {
   description = "Tags to apply to vpc peering for api x data vpc"
   type        = map(string)
-  default     = { "Name" = "demo-vpc", "created-by" = "terraform" }
+  default     = { "Name" = "Architeture-vpc", "created-by" = "terraform" }
 }
 
 # ASG variables
@@ -53,25 +53,25 @@ variable "vpc_tags" {
 variable "asg_sg_name" {
   description = "Name of the autoscaling group security group"
   type        = string
-  default     = "demo-asg-sg"
+  default     = "Architeture-asg-sg"
 }
 
 variable "asg_sg_description" {
   description = "Description of the autoscaling group security group"
   type        = string
-  default     = "demo-asg-sg"
+  default     = "Architeture-asg-sg"
 }
 
 variable "asg_sg_tags" {
   description = "Tags for autoscaling group security group"
   type        = map(string)
-  default     = { "Name" = "demo-asg-sg", "created-by" = "terraform" }
+  default     = { "Name" = "Architeture-asg-sg", "created-by" = "terraform" }
 }
 
 variable "asg_name" {
   description = "Name of the autoscaling group"
   type        = string
-  default     = "demo-asg"
+  default     = "Architeture-asg"
 }
 
 variable "asg_min_size" {
