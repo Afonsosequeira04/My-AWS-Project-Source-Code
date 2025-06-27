@@ -337,7 +337,7 @@ variable "rds_max_allocated_storage" {
 variable "rds_db_name" {
   description = "Relational database service db name"
   type        = string
-  default     = "Architeture_mysql"
+  default     = "architeturemysql"
 }
 
 variable "rds_username" {

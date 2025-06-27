@@ -1,43 +1,48 @@
-################################################################################
-# Local variables
-################################################################################
-
 locals {
   user_data = <<-EOT
 #!/bin/bash
-yum update -y
-amazon-linux-extras install -y lamp-mariadb10.2-php7.2 php7.2
-yum install -y httpd
-systemctl start httpd
-systemctl enable httpd
-usermod -a -G apache ec2-user
-chown -R ec2-user:apache /var/www
-chmod 2775 /var/www
-find /var/www -type d -exec chmod 2775 {} \;
-find /var/www -type f -exec chmod 0664 {} \;
-echo '<?php phpinfo(); ?>' > /var/www/html/phpinfo.php
-sudo yum install php-mbstring php-xml -y
+sudo yum update -y
+sudo amazon-linux-extras install -y lamp-mariadb10.2-php7.2 php7.2
+sudo yum install -y httpd
+sudo systemctl start httpd
+sudo systemctl enable httpd
+sudo usermod -a -G apache ec2-user
+sudo chown -R ec2-user:apache /var/www
+sudo chmod 2775 /var/www
+sudo find /var/www -type d -exec chmod 2775 {} \\;
+sudo find /var/www -type f -exec chmod 0664 {} \\;
+echo '<?php phpinfo(); ?>' | sudo tee /var/www/html/phpinfo.php
+sudo yum install -y php-mbstring php-xml
 sudo systemctl restart httpd
 sudo systemctl restart php-fpm
+
 cd /var/www/html
-wget https://www.phpmyadmin.net/downloads/phpMyAdmin-latest-all-languages.tar.gz
-mkdir phpMyAdmin && tar -xvzf phpMyAdmin-latest-all-languages.tar.gz -C phpMyAdmin --strip-components 1
-rm phpMyAdmin-latest-all-languages.tar.gz
-echo '<?php phpinfo(); ?>' > /var/www/html/phpinfo.php
+sudo wget https://www.phpmyadmin.net/downloads/phpMyAdmin-latest-all-languages.tar.gz
+sudo mkdir phpMyAdmin
+sudo tar -xvzf phpMyAdmin-latest-all-languages.tar.gz -C phpMyAdmin --strip-components 1
+sudo rm phpMyAdmin-latest-all-languages.tar.gz
+echo '<?php phpinfo(); ?>' | sudo tee /var/www/html/phpinfo.php
+
 cd phpMyAdmin
-mv config.sample.inc.php config.inc.php
-sed -i 's/localhost/${module.rds.db_instance_address}/g' config.inc.php
-amazon-linux-extras install java-openjdk17 -y
+sudo mv config.sample.inc.php config.inc.php
+sudo sed -i 's/localhost/${module.rds.db_instance_address}/g' config.inc.php
 
+sudo dnf clean all
+sudo dnf update -y
 
-    # Add Jenkins repo and install Jenkins
-    wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
-    rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
-    yum install jenkins -y
+sudo dnf install -y java-17-amazon-corretto
 
-    # Enable and start Jenkins
-    systemctl enable jenkins
-    systemctl start jenkins
+java -version
+
+sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+
+sudo dnf install -y jenkins
+
+sudo systemctl enable jenkins
+sudo systemctl start jenkins
+
+sudo systemctl status jenkins
   EOT
 }
 
@@ -61,6 +66,21 @@ module "asg_sg" {
   ]
   number_of_computed_ingress_with_source_security_group_id = 1
 
+  ingress_with_cidr_blocks = [
+    {
+      from_port   = 22
+      to_port     = 22
+      protocol    = "tcp"
+      cidr_blocks = "0.0.0.0/0" # Replace YOUR_IP with your public IP
+    },
+    {
+      from_port   = 8080
+      to_port     = 8080
+      protocol    = "tcp"
+      cidr_blocks = "0.0.0.0/0" # Replace YOUR_IP with your public IP
+    }
+  ]
+  
   egress_rules = ["all-all"]
 
   tags = var.asg_sg_tags
