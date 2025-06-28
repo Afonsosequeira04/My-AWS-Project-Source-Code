@@ -58,29 +58,28 @@ module "asg_sg" {
   description = var.asg_sg_description
   vpc_id      = module.vpc.vpc_id
 
-  computed_ingress_with_source_security_group_id = [
-    {
-      rule                     = "http-80-tcp"
-      source_security_group_id = module.alb_http_sg.security_group_id
-    }
-  ]
-  number_of_computed_ingress_with_source_security_group_id = 1
 
   ingress_with_cidr_blocks = [
     {
       from_port   = 22
       to_port     = 22
       protocol    = "tcp"
-      cidr_blocks = "0.0.0.0/0" # Replace YOUR_IP with your public IP
+      cidr_blocks = "0.0.0.0/0"
     },
     {
       from_port   = 8080
       to_port     = 8080
       protocol    = "tcp"
-      cidr_blocks = "0.0.0.0/0" # Replace YOUR_IP with your public IP
+      cidr_blocks = "0.0.0.0/0"
+    },
+    {
+      from_port   = 80
+      to_port     = 80
+      protocol    = "tcp"
+      cidr_blocks = "0.0.0.0/0" # 
     }
   ]
-  
+
   egress_rules = ["all-all"]
 
   tags = var.asg_sg_tags
