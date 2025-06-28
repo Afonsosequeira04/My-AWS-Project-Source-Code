@@ -1,4 +1,4 @@
-This project i designed contains the source code and infrastructure as code for deploying a scalable and resilient multi-tier architecture on AWS using Terraform.
+This project i designed contains the source code and infrastructure as code for deploying a scalable and resilient multi-tier architecture on AWS using Terraform for automating.
 
 ![Alt text](images/My-AWS-Architeture-Diagram1.drawio.png)
 

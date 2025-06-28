@@ -92,6 +92,7 @@ module "asg_sg" {
 # ASG for Public Subnets (with public IPs)
 module "asg_public" {
   source = "terraform-aws-modules/autoscaling/aws"
+  version = "~> 6.0"
 
   name                      = "${var.asg_name}-public"
   min_size                  = var.asg_min_size
@@ -101,6 +102,7 @@ module "asg_public" {
   health_check_type         = var.asg_health_check_type
   vpc_zone_identifier       = module.vpc.public_subnets
   user_data                 = base64encode(local.user_data)
+  
 
   launch_template_name        = var.asg_launch_template_name
   launch_template_description = var.asg_launch_template_description
