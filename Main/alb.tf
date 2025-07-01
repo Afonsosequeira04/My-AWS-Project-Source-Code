@@ -53,7 +53,7 @@ module "alb" {
     {
       port            = 443
       protocol        = "HTTPS"
-      certificate_arn = aws_acm_certificate_validation.this.certificate_arn
+      certificate_arn = var.acm_certificate_arn
       ssl_policy      = "ELBSecurityPolicy-2016-08"
       default_action = {
         type               = "forward"
@@ -61,7 +61,6 @@ module "alb" {
       }
     }
   ]
-
 
   target_groups = [
     {

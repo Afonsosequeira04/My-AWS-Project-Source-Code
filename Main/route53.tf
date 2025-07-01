@@ -1,29 +1,5 @@
-resource "aws_route53_zone" "main" {
-  name = "myserveravtas.shop"
+variable "acm_certificate_arn" {
+  type    = string
+  default = "arn:aws:acm:us-east-1:097648937889:certificate/7bbee294-827d-4f45-aadc-754e41247fe4"
 }
 
-resource "aws_acm_certificate" "this" {
-  domain_name       = "myserveravtas.shop"
-  validation_method = "DNS"
-}
-
-resource "aws_route53_record" "cert_validation" {
-  for_each = {
-    for dvo in aws_acm_certificate.this.domain_validation_options : dvo.domain_name => {
-      name   = dvo.resource_record_name
-      type   = dvo.resource_record_type
-      record = dvo.resource_record_value
-    }
-  }
-
-  zone_id = aws_route53_zone.main.zone_id
-  name    = each.value.name
-  type    = each.value.type
-  records = [each.value.record]
-  ttl     = 60
-}
-
-resource "aws_acm_certificate_validation" "this" {
-  certificate_arn         = aws_acm_certificate.this.arn
-  validation_record_fqdns = [for record in aws_route53_record.cert_validation : record.fqdn]
-}

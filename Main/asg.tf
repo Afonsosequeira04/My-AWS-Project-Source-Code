@@ -101,7 +101,7 @@ module "asg_public" {
   health_check_type         = var.asg_health_check_type
   vpc_zone_identifier       = module.vpc.public_subnets
   user_data                 = base64encode(local.user_data)
-  
+
 
   launch_template_name        = var.asg_launch_template_name
   launch_template_description = var.asg_launch_template_description
