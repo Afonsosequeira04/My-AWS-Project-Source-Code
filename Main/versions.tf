@@ -1,4 +1,4 @@
-# This file is part of the Terraform configuration for managing AWS resources.
+# This file is part of the Terraform configuration for managing AWS resources using the AWS provider.
 terraform {
   required_providers {
     aws = {
