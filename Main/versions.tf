@@ -1,3 +1,4 @@
+# This file is part of the Terraform configuration for managing AWS resources.
 terraform {
   required_providers {
     aws = {
@@ -11,3 +12,4 @@ terraform {
 provider "aws" {
   region = "us-east-1"
 }
+
