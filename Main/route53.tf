@@ -1,11 +1,11 @@
 variable "route53_zone_id" {
   type    = string
-  default = "Z01080082M7TFPROC4YKQ"
+  default = "Z0522544A04GBYF8GW8B"
 }
 
 variable "acm_certificate_arn" {
   type    = string
-  default = "arn:aws:acm:us-east-1:097648937889:certificate/7bbee294-827d-4f45-aadc-754e41247fe4"
+  default = "arn:aws:acm:us-east-1:381112449986:certificate/6cb5924b-0320-41cc-bae6-5a4135fd66c7"
 }
 
 # A record (alias) for root domain: checkthattask.xyz
