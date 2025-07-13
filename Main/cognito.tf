@@ -4,6 +4,9 @@ resource "random_id" "suffix" {
 
 resource "aws_cognito_user_pool" "auth_pool" {
   name = "web-users"
+
+  username_attributes      = ["email"]
+  auto_verified_attributes = ["email"]
 }
 
 resource "aws_cognito_user_pool_client" "auth_client" {
