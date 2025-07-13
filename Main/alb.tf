@@ -29,20 +29,19 @@ module "alb" {
   security_groups = [module.alb_http_sg.security_group_id]
 
   http_tcp_listeners = [
-    {
-      port     = 80
-      protocol = "HTTP"
+  {
+    port        = 80
+    protocol    = "HTTP"
 
-      default_action = {
-        type = "redirect"
-        redirect = {
-          protocol    = "HTTPS"
-          port        = "443"
-          status_code = "HTTP_301"
-        }
-      }
+    action_type = "redirect"
+
+    redirect = {
+      protocol    = "HTTPS"
+      port        = "443"
+      status_code = "HTTP_301"
     }
-  ]
+  }
+]
 
   https_listeners = [
     {
