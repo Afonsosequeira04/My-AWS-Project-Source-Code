@@ -10,7 +10,6 @@ module "alb_http_sg" {
   tags                = var.alb_sg_tags
 }
 
-# Add HTTPS ingress rule to the ALB security group
 resource "aws_security_group_rule" "alb_https_ingress" {
   type              = "ingress"
   from_port         = 443
@@ -20,10 +19,6 @@ resource "aws_security_group_rule" "alb_https_ingress" {
   cidr_blocks       = var.alb_sg_ingress_cidr_blocks
   description       = "Allow HTTPS inbound traffic"
 }
-
-################################################################################
-# Application load balancer (ALB)
-################################################################################
 
 module "alb" {
   source          = "terraform-aws-modules/alb/aws"
@@ -55,10 +50,38 @@ module "alb" {
       protocol        = "HTTPS"
       certificate_arn = var.acm_certificate_arn
       ssl_policy      = "ELBSecurityPolicy-2016-08"
+
       default_action = {
         type               = "forward"
         target_group_index = 0
       }
+    }
+  ]
+
+  https_listener_rules = [
+    {
+      https_listener_index = 0
+      priority             = 100
+
+      actions = [
+        {
+          type                       = "authenticate-cognito"
+          user_pool_arn              = aws_cognito_user_pool.auth_pool.arn
+          user_pool_client_id        = aws_cognito_user_pool_client.auth_client.id
+          user_pool_domain           = aws_cognito_user_pool_domain.auth_domain.domain
+          on_unauthenticated_request = "authenticate"
+        },
+        {
+          type               = "forward"
+          target_group_index = 0
+        }
+      ]
+
+      conditions = [
+        {
+          path_patterns = ["/*"]
+        }
+      ]
     }
   ]
 
@@ -68,7 +91,7 @@ module "alb" {
       backend_protocol = "HTTP"
       backend_port     = 80
       target_type      = "instance"
-      stickiness       = { "enabled" = true, "type" = "lb_cookie" }
+      stickiness       = { enabled = true, type = "lb_cookie" }
       health_check = {
         enabled             = true
         interval            = 30
@@ -80,14 +103,9 @@ module "alb" {
         protocol            = "HTTP"
         matcher             = "200-399"
       }
-    },
+    }
   ]
-
 
   tags = var.alb_tags
 }
-
-
-
-
 
