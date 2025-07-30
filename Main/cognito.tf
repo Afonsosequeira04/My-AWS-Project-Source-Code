@@ -31,41 +31,39 @@ resource "aws_cognito_user_pool_ui_customization" "auth_ui" {
   user_pool_id = aws_cognito_user_pool.auth_pool.id
 
   css = <<CSS
-  /* Light modern theme - modify colors as needed */
-
-  /* Header area */
   .banner-customizable {
     background: #2563eb;
     padding: 1.5rem 0;
   }
 
-  /* Logo (add your own via image_file later) */
   .logo-customizable {
-    max-height: 50px;
+    max-height: 60px;
+    width: 100%;
+    margin-bottom: 1rem;
   }
 
-  /* Input fields */
   .inputField-customizable {
     border: 1px solid #d1d5db;
     border-radius: 0.375rem;
     padding: 0.5rem;
   }
 
-  /* Submit button */
   .submitButton-customizable {
     background: #2563eb;
     font-weight: 500;
     border-radius: 0.375rem;
     padding: 0.5rem 1rem;
   }
+
   .submitButton-customizable:hover {
     background: #1d4ed8;
   }
 
-  /* Text styles */
   .textDescription-customizable {
     color: #374151;
     margin-bottom: 1rem;
   }
 CSS
+
+    image_file = filebase64("${path.module}/../images/ChatGPT Image 12_07_2025, 22_56_04 (3).png")
 }
