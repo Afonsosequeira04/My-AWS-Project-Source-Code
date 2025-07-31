@@ -31,13 +31,17 @@ resource "aws_cognito_user_pool_ui_customization" "auth_ui" {
   user_pool_id = aws_cognito_user_pool.auth_pool.id
 
   css = <<CSS
+.background-customizable {
+    background:rgb(116, 215, 35);
+  }
+
   .banner-customizable {
-    background: #2563eb;
+    background:rgb(106, 209, 227);
     padding: 1.5rem 0;
   }
 
   .logo-customizable {
-    max-height: 60px;
+    max-height: 350px;
     width: 100%;
     margin-bottom: 1rem;
   }
@@ -49,14 +53,14 @@ resource "aws_cognito_user_pool_ui_customization" "auth_ui" {
   }
 
   .submitButton-customizable {
-    background: #2563eb;
+    background: rgb(106, 209, 227);
     font-weight: 500;
     border-radius: 0.375rem;
     padding: 0.5rem 1rem;
   }
 
   .submitButton-customizable:hover {
-    background: #1d4ed8;
+    background: rgb(149, 217, 227);
   }
 
   .textDescription-customizable {
