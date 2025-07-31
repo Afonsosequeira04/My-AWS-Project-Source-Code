@@ -9,9 +9,12 @@ sudo systemctl enable httpd
 sudo usermod -a -G apache ec2-user
 sudo chown -R ec2-user:apache /var/www
 sudo chmod 2775 /var/www
-sudo find /var/www -type d -exec chmod 2775 {} \\;
-sudo find /var/www -type f -exec chmod 0664 {} \\;
-echo '<?php phpinfo(); ?>' | sudo tee /var/www/html/phpinfo.php
+sudo find /var/www -type d -exec chmod 2775 {} \;
+sudo find /var/www -type f -exec chmod 0664 {} \;
+
+# Create your custom HTML app
+echo '<!DOCTYPE html><html><head><title>My App</title></head><body><h1>It works!</h1><p>Edit /var/www/html/index.html to update your app.</p></body></html>' | sudo tee /var/www/html/index.html
+
 sudo yum install -y php-mbstring php-xml
 sudo systemctl restart httpd
 sudo systemctl restart php-fpm
