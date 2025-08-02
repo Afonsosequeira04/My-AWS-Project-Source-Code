@@ -12,8 +12,19 @@ sudo chmod 2775 /var/www
 sudo find /var/www -type d -exec chmod 2775 {} \;
 sudo find /var/www -type f -exec chmod 0664 {} \;
 
-# Create your custom HTML app
-echo '<!DOCTYPE html><html><head><title>My App</title></head><body><h1>It works!</h1><p>Edit /var/www/html/index.html to update your app.</p></body></html>' | sudo tee /var/www/html/index.html
+echo '<!DOCTYPE html>
+<html>
+<head>
+<title>Checkthattask</title>
+<style>
+  body { background: #fff9db; color: #222; font-family: Arial, sans-serif; }
+  h1 { color: #2563eb; }
+</style>
+</head>
+<body>
+<h1>Checkthattask</h1>
+</body>
+</html>' | sudo tee /var/www/html/index.html
 
 sudo yum install -y php-mbstring php-xml
 sudo systemctl restart httpd
@@ -48,7 +59,6 @@ sudo systemctl start jenkins
 sudo systemctl status jenkins
   EOT
 }
-
 ################################################################################
 # Supporting Resources
 ################################################################################
