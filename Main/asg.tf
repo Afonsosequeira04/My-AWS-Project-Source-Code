@@ -3,28 +3,17 @@ locals {
 #!/bin/bash
 sudo yum update -y
 sudo amazon-linux-extras install -y lamp-mariadb10.2-php7.2 php7.2
-sudo yum install -y httpd
+sudo yum install -y httpd awscli
 sudo systemctl start httpd
 sudo systemctl enable httpd
 sudo usermod -a -G apache ec2-user
 sudo chown -R ec2-user:apache /var/www
 sudo chmod 2775 /var/www
-sudo find /var/www -type d -exec chmod 2775 {} \;
-sudo find /var/www -type f -exec chmod 0664 {} \;
+sudo find /var/www -type d -exec chmod 2775 {} \\;
+sudo find /var/www -type f -exec chmod 0664 {} \\;
 
-echo '<!DOCTYPE html>
-<html>
-<head>
-<title>Checkthattask</title>
-<style>
-  body { background: #fff9db; color: #222; font-family: Arial, sans-serif; }
-  h1 { color: #2563eb; }
-</style>
-</head>
-<body>
-<h1>Checkthattask</h1>
-</body>
-</html>' | sudo tee /var/www/html/index.html
+# Sync the premade site files from S3 bucket to /var/www/html
+sudo aws s3 sync s3://my-three-tier-architeture-app-project123/html5up-spectral/ /var/www/html/
 
 sudo yum install -y php-mbstring php-xml
 sudo systemctl restart httpd
@@ -59,6 +48,33 @@ sudo systemctl start jenkins
 sudo systemctl status jenkins
   EOT
 }
+
+################################################################################
+# IAM Policy to allow S3 read/list access to your bucket
+################################################################################
+
+resource "aws_iam_policy" "s3_read_policy" {
+  name        = "S3Read-my-three-tier-architeture-app-project123"
+  description = "Allow EC2 instances read access to S3 bucket my-three-tier-architeture-app-project123"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "s3:GetObject",
+          "s3:ListBucket"
+        ]
+        Resource = [
+          "arn:aws:s3:::my-three-tier-architeture-app-project123",
+          "arn:aws:s3:::my-three-tier-architeture-app-project123/*"
+        ]
+      }
+    ]
+  })
+}
+
 ################################################################################
 # Supporting Resources
 ################################################################################
@@ -70,7 +86,6 @@ module "asg_sg" {
   name        = var.asg_sg_name
   description = var.asg_sg_description
   vpc_id      = module.vpc.vpc_id
-
 
   ingress_with_cidr_blocks = [
     {
@@ -89,7 +104,7 @@ module "asg_sg" {
       from_port   = 80
       to_port     = 80
       protocol    = "tcp"
-      cidr_blocks = "0.0.0.0/0" # 
+      cidr_blocks = "0.0.0.0/0"
     }
   ]
 
@@ -99,10 +114,9 @@ module "asg_sg" {
 }
 
 ################################################################################
-# Autoscaling scaling group (ASG)
+# Autoscaling scaling group (ASG) for Public Subnets (with public IPs)
 ################################################################################
 
-# ASG for Public Subnets (with public IPs)
 module "asg_public" {
   source = "terraform-aws-modules/autoscaling/aws"
 
@@ -114,7 +128,6 @@ module "asg_public" {
   health_check_type         = var.asg_health_check_type
   vpc_zone_identifier       = module.vpc.public_subnets
   user_data                 = base64encode(local.user_data)
-
 
   launch_template_name        = var.asg_launch_template_name
   launch_template_description = var.asg_launch_template_description
@@ -132,6 +145,7 @@ module "asg_public" {
   iam_role_tags               = var.asg_iam_role_tags
   iam_role_policies = {
     AmazonSSMManagedInstanceCore = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+    S3ReadAccess                 = aws_iam_policy.s3_read_policy.arn
   }
 
   block_device_mappings = [
@@ -181,7 +195,10 @@ module "asg_public" {
   tags = var.asg_tags
 }
 
-# ASG for Private Subnets (without public IPs)
+################################################################################
+# Autoscaling scaling group (ASG) for Private Subnets (without public IPs)
+################################################################################
+
 module "asg_private" {
   source = "terraform-aws-modules/autoscaling/aws"
 
@@ -210,6 +227,7 @@ module "asg_private" {
   iam_role_tags               = var.asg_iam_role_tags
   iam_role_policies = {
     AmazonSSMManagedInstanceCore = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+    S3ReadAccess                 = aws_iam_policy.s3_read_policy.arn
   }
 
   block_device_mappings = [

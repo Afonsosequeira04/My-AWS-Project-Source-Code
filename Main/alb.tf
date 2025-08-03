@@ -124,22 +124,23 @@ module "alb" {
       }
     },
     {
-      name             = "${var.alb_target_group_name}-jenkins"
-      backend_protocol = "HTTP"
-      backend_port     = 8080
-      target_type      = "instance"
-      health_check = {
-        enabled             = true
-        interval            = 30
-        path                = "/"       # Adjust if you want a different health check for Jenkins
-        port                = "8080"
-        healthy_threshold   = 3
-        unhealthy_threshold = 3
-        timeout             = 6
-        protocol            = "HTTP"
-        matcher             = "200-399"
-      }
-    }
+  name             = "${var.alb_target_group_name}-jenkins"
+  backend_protocol = "HTTP"
+  backend_port     = 8080
+  target_type      = "instance"
+  health_check = {
+    enabled             = true
+    interval            = 30
+    path                = "/whoAmI/api/json" # ←✅ this works without authentication
+    port                = "8080"
+    healthy_threshold   = 3
+    unhealthy_threshold = 3
+    timeout             = 6
+    protocol            = "HTTP"
+    matcher             = "200-399"
+  }
+}
+
   ]
 
   tags = var.alb_tags
