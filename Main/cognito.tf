@@ -10,15 +10,15 @@ resource "aws_cognito_user_pool" "auth_pool" {
 }
 
 resource "aws_cognito_user_pool_client" "auth_client" {
-  name                       = "web-app-client"
-  user_pool_id               = aws_cognito_user_pool.auth_pool.id
-  generate_secret            = true
+  name                                 = "web-app-client"
+  user_pool_id                         = aws_cognito_user_pool.auth_pool.id
+  generate_secret                      = true
   allowed_oauth_flows_user_pool_client = true
-  allowed_oauth_flows        = ["code"]
-  allowed_oauth_scopes       = ["openid", "email", "profile"]
-  callback_urls = ["https://checkthattask.xyz/oauth2/idpresponse"]
-  logout_urls   = ["https://checkthattask.xyz/"]
-  supported_identity_providers = ["COGNITO"]
+  allowed_oauth_flows                  = ["code"]
+  allowed_oauth_scopes                 = ["openid", "email", "profile"]
+  callback_urls                        = ["https://checkthattask.xyz/oauth2/idpresponse"]
+  logout_urls                          = ["https://checkthattask.xyz/"]
+  supported_identity_providers         = ["COGNITO"]
 }
 
 resource "aws_cognito_user_pool_domain" "auth_domain" {
@@ -69,5 +69,5 @@ resource "aws_cognito_user_pool_ui_customization" "auth_ui" {
   }
 CSS
 
-    image_file = filebase64("${path.module}/../images/ChatGPT Image 12_07_2025, 22_56_04 (3).png")
+  image_file = filebase64("${path.module}/../images/ChatGPT Image 12_07_2025, 22_56_04 (3).png")
 }

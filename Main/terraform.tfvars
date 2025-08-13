@@ -55,7 +55,7 @@ rds_sg_description                        = "Architeture-rds-sg"
 rds_sg_tags                               = { "Name" = "Architeture-rds-sg", "created-by" = "terraform" }
 rds_identifier                            = "architeturerds"
 rds_mysql_engine                          = "mysql"
-rds_engine_version                        = "8.0.36"
+rds_engine_version                        = "8.0.42"
 rds_family                                = "mysql8.0" # DB parameter group
 rds_major_engine_version                  = "8.0"      # DB option group
 rds_instance_class                        = "db.t3.small"

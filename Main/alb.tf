@@ -41,8 +41,8 @@ module "alb" {
 
   http_tcp_listeners = [
     {
-      port        = 80
-      protocol    = "HTTP"
+      port     = 80
+      protocol = "HTTP"
 
       action_type = "redirect"
 
@@ -53,12 +53,12 @@ module "alb" {
       }
     },
     {
-      port        = 8080
-      protocol    = "HTTP"
+      port     = 8080
+      protocol = "HTTP"
 
       default_action = {
         type               = "forward"
-        target_group_index = 1  # Jenkins target group index
+        target_group_index = 1 # Jenkins target group index
       }
     }
   ]
@@ -124,22 +124,22 @@ module "alb" {
       }
     },
     {
-  name             = "${var.alb_target_group_name}-jenkins"
-  backend_protocol = "HTTP"
-  backend_port     = 8080
-  target_type      = "instance"
-  health_check = {
-    enabled             = true
-    interval            = 30
-    path                = "/whoAmI/api/json" # ←✅ this works without authentication
-    port                = "8080"
-    healthy_threshold   = 3
-    unhealthy_threshold = 3
-    timeout             = 6
-    protocol            = "HTTP"
-    matcher             = "200-399"
-  }
-}
+      name             = "${var.alb_target_group_name}-jenkins"
+      backend_protocol = "HTTP"
+      backend_port     = 8080
+      target_type      = "instance"
+      health_check = {
+        enabled             = true
+        interval            = 30
+        path                = "/whoAmI/api/json" # ←✅ this works without authentication
+        port                = "8080"
+        healthy_threshold   = 3
+        unhealthy_threshold = 3
+        timeout             = 6
+        protocol            = "HTTP"
+        matcher             = "200-399"
+      }
+    }
 
   ]
 
